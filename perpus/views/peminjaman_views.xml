@@ -1,0 +1,94 @@
+<odoo>
+    <record id="pinjam_view_form" model="ir.ui.view">
+        <field name="name">pinjam.view.form</field>
+        <field name="model">perpus.pinjam</field>
+        <field name="arch" type="xml">
+            <form string="pinjam form">
+             <header>
+                 <button name="action_confirmed" string="Confirm" states="draft" type="object" class="btn-primary"/>
+                 <button name="action_settodraft" states="canceled" string="Set to Draft" type="object" class="btn-primary"/>
+                 <button name="action_canceled" string="Cancel" states="confirmed" type="object" class="btn-primary" />
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                         <group>
+                             <field name="name"/>
+                            <field name="anggota_id"/>
+                            <field name="admin_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="jumlah_buku"/>
+                            <field name="total"/>
+                        </group>
+                    </group>
+                        <notebook>
+                        <page string="Detail Pinjam" name="detail_pinjam">
+                            <field name="detailpinjam_ids">
+                                <!-- <tree editable="bottom" decoration-info="vote == 'abstain'" decoration-warning="vote == 'yes'"-->
+                                <tree editable="bottom">
+                                    <field name="buku_id"/>
+                                    <field name="tgl_pinjam"/>
+                                    <field name="tgl_balik"/>
+                                    <field name="biaya"/>
+                                    <field name="durasi"/>
+                                    <field name="dendat"/>
+                                    <field name="denda"/>
+                                    <field name="ket"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pinjam_view_list" model="ir.ui.view">
+        <field name="name">pinjam.view.list</field>
+        <field name="model">perpus.pinjam</field>
+        <field name="arch" type="xml">
+            <tree string="perpus list">
+                <field name="name"/>
+                <field name="anggota_id"/>
+                <field name="date"/>
+                <field name="jumlah_buku"/>
+                <field name="total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pinjam_view_search" model="ir.ui.view">
+        <field name="name">perpus.pinjam.search</field>
+        <field name="model">perpus.pinjam</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="jumlah_buku"/>
+                <field name="total"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed_filter" domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pinjam_action" model="ir.actions.act_window">
+        <field name="name">Peminjaman</field>
+        <field name="res_model">perpus.pinjam</field>
+        <field name="view_id" ref="pinjam_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+    <!--parent menu-->
+    
+    <menuitem id="pinjam_mmenu2" parent="perpus.perpus_mmenu" name="Peminjaman"
+              action="pinjam_action" sequence="30"/>
+</odoo>

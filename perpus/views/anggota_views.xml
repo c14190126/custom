@@ -1,0 +1,74 @@
+<odoo>
+    <record id="perpus_view_form" model="ir.ui.view">
+        <field name="name">perpus.view.form</field>
+        <field name="model">perpus.anggota</field>
+        <field name="arch" type="xml">
+            <form string="perpus form">
+             <header>
+                 <button name="action_confirmed" string="Confirm" states="draft" type="object" class="btn-primary"/>
+                 <button name="action_settodraft" states="canceled" string="Set to Draft" type="object" class="btn-primary"/>
+                 <button name="action_canceled" string="Cancel" states="confirmed" type="object" class="btn-primary" />
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="id_anggota"/>
+                            <field name="email"/>
+                            <field name="telp"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="perpus_view_list" model="ir.ui.view">
+        <field name="name">perpus.view.list</field>
+        <field name="model">perpus.anggota</field>
+        <field name="arch" type="xml">
+            <tree string="perpus list">
+                <field name="name"/>
+                <field name="id_anggota"/>
+                <field name="email"/>
+                <field name="telp"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="perpus_view_search" model="ir.ui.view">
+        <field name="name">perpus.anggota.search</field>
+        <field name="model">perpus.anggota</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="id_anggota"/>
+                <field name="email"/>
+                <field name="telp"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed_filter" domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="anggota_action" model="ir.actions.act_window">
+        <field name="name">Anggota</field>
+        <field name="res_model">perpus.anggota</field>
+        <field name="view_id" ref="perpus_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+    <!--parent menu-->
+
+    <menuitem id="perpus_mmenu" parent="idea.exercise_menu" name="Perpustakaan"
+              sequence="30"/>
+
+    <menuitem id="anggota_mmenu2" parent="perpus.perpus_mmenu" name="Anggota"
+              action="anggota_action" sequence="10"/>
+</odoo>

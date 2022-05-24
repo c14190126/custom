@@ -1,0 +1,68 @@
+<odoo>
+    <record id="mk_view_form" model="ir.ui.view">
+        <field name="name">mk.view.form</field>
+        <field name="model">nilai.mk</field>
+        <field name="arch" type="xml">
+            <form string="mk form">
+             <header>
+                 <button name="action_confirmed" string="Confirm" states="draft" type="object" class="btn-primary"/>
+                 <button name="action_settodraft" states="canceled" string="Set to Draft" type="object" class="btn-primary"/>
+                 <button name="action_canceled" string="Cancel" states="confirmed" type="object" class="btn-primary" />
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="kode_mk"/>
+                        </group>
+                        <group>
+                            <field name="sks"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mk_view_list" model="ir.ui.view">
+        <field name="name">mk.view.list</field>
+        <field name="model">nilai.mk</field>
+        <field name="arch" type="xml">
+            <tree string="mk list">
+                <field name="name"/>
+                <field name="kode_mk"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mk_view_search" model="ir.ui.view">
+        <field name="name">nilai.mk.search</field>
+        <field name="model">nilai.mk</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="kode_mk"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed_filter" domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="mk_action" model="ir.actions.act_window">
+        <field name="name">mk</field>
+        <field name="res_model">nilai.mk</field>
+        <field name="view_id" ref="mk_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+    <!--parent menu-->
+
+    <menuitem id="mk_mmenu" parent="nilai.nilai_mmenu" name="Mata Kuliah"
+              action="mk_action" sequence="20"/>
+</odoo>

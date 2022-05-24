@@ -1,0 +1,89 @@
+<odoo>
+    <record id="kelas_view_form" model="ir.ui.view">
+        <field name="name">kelas.view.form</field>
+        <field name="model">nilai.kelas</field>
+        <field name="arch" type="xml">
+            <form string="kelas Form">
+                <header>
+                    <!-- Done - Canceled - Settodraft - -->
+                    <!-- Class Mahasiswa need states draft - -->
+                    <button name="action_done" string="Done" states="draft" type="object" class="btn-primary"/>
+                    <!-- Canceled need states Done - -->
+                    <button name="action_canceled" string="Cancel" states="done" type="object" class="btn-primary"/>
+                    <!-- Set to draft need states Canceled - -->
+                    <button name="action_settodraft" states="canceled" string="Set to Draft" type="object"
+                            class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <!--smart button-->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_wiz_nilai" type="object" string="Update Nilai" class="oe_stat_button"
+                                icon="fa-pencil-square-o">
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="mk_id"/>
+                            <field name="semester"/>
+                            <field name="tahun"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Nilai" name="nilai-kelas">
+                            <field name="line_ids">
+                                <!-- <tree editable="bottom" decoration-info="vote == 'abstain'" decoration-warning="vote == 'yes'"-->
+                                <tree editable="bottom">
+                                    <field name="mhs_id"/>
+                                    <field name="grade" readonly="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="kelas_view_list" model="ir.ui.view">
+        <field name="name">kelas.view.list</field>
+        <field name="model">nilai.kelas</field>
+        <field name="arch" type="xml">
+            <tree string="kelas list">
+                <field name="mk_id"/>
+                <field name="name"/>
+                <field name="semester"/>
+                <field name="tahun"/>
+                <field name="state" invisible="1"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="kelas_view_search" model="ir.ui.view">
+        <field name="name">nilai.kelas.search</field>
+        <field name="model">nilai.kelas</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="semester"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Done" name="confirmed_filter" domain="[('state', '=', 'done')]"/>
+
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="kelas_action" model="ir.actions.act_window">
+        <field name="name">kelas</field>
+        <field name="res_model">nilai.kelas</field>
+        <field name="view_id" ref="kelas_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+
+    <menuitem id="kelas_mmenu" parent="nilai.nilai_mmenu" name="kelas"
+              action="kelas_action" sequence="40"/>
+</odoo>
