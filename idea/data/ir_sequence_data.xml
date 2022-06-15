@@ -18,6 +18,5 @@
             <field eval="1" name="number_next"></field>
             <field eval="1" name="number_increment"></field>
             <field eval="False" name="company_id"></field>
-            <field eval="True" name="use_date_range"></field>
         </record>
 </odoo>

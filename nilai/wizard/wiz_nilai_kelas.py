@@ -55,4 +55,3 @@ class wizkelas(models.TransientModel):
                                   ('C', 'C'),
                                   ('D', 'D'),
                                   ('E', 'E')])
-

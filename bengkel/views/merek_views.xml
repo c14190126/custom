@@ -1,0 +1,78 @@
+<odoo>
+    <record id="merek_view_form" model="ir.ui.view">
+        <field name="name">merek.view.form</field>
+        <field name="model">bengkel.merek</field>
+        <field name="arch" type="xml">
+            <form string="merek form">
+             <header>
+                 <button name="action_confirmed" string="Confirm" states="draft" type="object" class="btn-primary"/>
+                 <button name="action_settodraft" states="canceled" string="Set to Draft" type="object" class="btn-primary"/>
+                 <button name="action_canceled" string="Cancel" states="confirmed" type="object" class="btn-primary" />
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="id_merek"/>
+                        </group>
+                    </group>
+                     <notebook>
+                        <page string="Product" name="product">
+                            <field name="product_ids" readonly="1">
+                                <tree decoration-info="state == 'draft'" decoration-warning="state == 'confirmed'">
+                                    <field name="name"/>
+                                    <field name="id_product"/>
+                                    <field name="harga"/>
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="merek_view_list" model="ir.ui.view">
+        <field name="name">merek.view.list</field>
+        <field name="model">bengkel.merek</field>
+        <field name="arch" type="xml">
+            <tree string="bengkel list">
+                <field name="name"/>
+                <field name="id_merek"/>
+                <field name="state" invisible="1"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="merek_view_search" model="ir.ui.view">
+        <field name="name">bengkel.merek.search</field>
+        <field name="model">bengkel.merek</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="id_merek"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed_filter" domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="merek_action" model="ir.actions.act_window">
+        <field name="name">Merek</field>
+        <field name="res_model">bengkel.merek</field>
+        <field name="view_id" ref="merek_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+    <!--parent menu-->
+    
+    <menuitem id="merek_mmenu2" parent="bengkel.bengkel_mmenu" name="Merek"
+              action="merek_action" sequence="50"/>
+</odoo>

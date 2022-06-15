@@ -1,0 +1,103 @@
+<odoo>
+    <record id="transaksi_view_form" model="ir.ui.view">
+        <field name="name">transaksi.view.form</field>
+        <field name="model">bengkel.transaksi</field>
+        <field name="arch" type="xml">
+            <form string="transaksi form">
+             <header>
+                 <button name="action_confirmed" string="Confirm" states="draft" type="object" class="btn-primary"/>
+                 <button name="action_settodraft" states="canceled" string="Set to Draft" type="object" class="btn-primary"/>
+                 <button name="action_canceled" string="Cancel" states="confirmed" type="object" class="btn-primary" />
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_wiz_transaksi" type="object" string="Update Transaksi" class="oe_stat_button"
+                                icon="fa-pencil-square-o">
+                        </button>
+                    </div>
+                    <group>
+                         <group>
+                             <field name="name"/>
+                             <field name="customer"/>
+                             <field name="mobil_id"/>
+                        </group>
+                        <group>
+                            <field name="poin" force_save="1"/>
+                            <field name="date"/>
+                            <field name="employee"/>
+                        </group>
+                    </group>
+                        <notebook>
+                        <page string="Detail transaksi" name="detail_transaksi">
+                            <field name="detailtransaksi_ids">
+                                <!-- <tree editable="bottom" decoration-info="vote == 'abstain'" decoration-warning="vote == 'yes'"-->
+                                <tree editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="harga_product"/>
+                                    <field name="quantity" />
+                                    <field name="diskon" />
+                                    <field name="ket"/>
+                                    <field name="harga"/>
+                                    <field name="state" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                     <group class="oe_subtotal_footer oe_right" colspan="2">
+                            <field name="total" />
+                            <field name="tpoin"/>
+                        </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="transaksi_view_list" model="ir.ui.view">
+        <field name="name">transaksi.view.list</field>
+        <field name="model">bengkel.transaksi</field>
+        <field name="arch" type="xml">
+            <tree string="bengkel list">
+                <field name="name"/>
+                <field name="customer"/>
+                <field name="date"/>
+                <field name="total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="transaksi_view_search" model="ir.ui.view">
+        <field name="name">bengkel.transaksi.search</field>
+        <field name="model">bengkel.transaksi</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="total"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed_filter" domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="transaksi_action" model="ir.actions.act_window">
+        <field name="name">Transaksi</field>
+        <field name="res_model">bengkel.transaksi</field>
+        <field name="view_id" ref="transaksi_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+    <!--parent menu-->
+    <menuitem id="bengkel_menu" name="Bengkel"
+              sequence="20"/>
+
+    <menuitem id="bengkel_mmenu" parent="bengkel.bengkel_menu" name="Bengkel"
+              action="transaksi_action" sequence="10"/>
+
+    <menuitem id="transaksi_mmenu2" parent="bengkel.bengkel_mmenu" name="Transaksi"
+              action="transaksi_action" sequence="10"/>
+</odoo>

@@ -44,5 +44,5 @@ class idea(models.Model):  # inherit dari Model
         if not seq:
             raise UserError(_("idea.voting sequence not found, please create idea.voting sequence"))
         for val in vals_list:
-            val['name'] = seq.next_by_id(sequence_date=val['date'])
-        return super(voting, self).create(vals_list)
+            val['name'] = seq.next_by_id()
+        return super(idea, self).create(vals_list)

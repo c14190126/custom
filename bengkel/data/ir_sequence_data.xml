@@ -1,0 +1,40 @@
+<odoo noupdate="0">
+        <!-- Sequences for sale.order -->
+        <record id="sequence_bengkel_transaksi_seq" model="ir.sequence">
+            <field name="name">Transaksi sequence</field>
+            <field name="code">bengkel.transaksi</field>
+            <field name="prefix">Transaksi/%(range_year)s/%(month)s/%(day)s/</field>
+            <field eval="3" name="padding"></field>
+            <field eval="1" name="number_next"></field>
+            <field eval="1" name="number_increment"></field>
+            <field eval="False" name="company_id"></field>
+            <field eval="True" name="use_date_range"></field>
+        </record>
+        <record id="sequence_bengkel_ketegori_seq" model="ir.sequence">
+            <field name="name">Kategori sequence</field>
+            <field name="code">bengkel.kategori</field>
+            <field name="prefix">Kategori/</field>
+            <field eval="3" name="padding"></field>
+            <field eval="1" name="number_next"></field>
+            <field eval="1" name="number_increment"></field>
+            <field eval="False" name="company_id"></field>
+        </record>
+        <record id="sequence_bengkel_merek_seq" model="ir.sequence">
+            <field name="name">Merek sequence</field>
+            <field name="code">bengkel.merek</field>
+            <field name="prefix">Merek/</field>
+            <field eval="3" name="padding"></field>
+            <field eval="1" name="number_next"></field>
+            <field eval="1" name="number_increment"></field>
+            <field eval="False" name="company_id"></field>
+        </record>
+            <record id="sequence_bengkel_product_seq" model="ir.sequence">
+            <field name="name">product sequence</field>
+            <field name="code">bengkel.product</field>
+            <field name="prefix">product/</field>
+            <field eval="3" name="padding"></field>
+            <field eval="1" name="number_next"></field>
+            <field eval="1" name="number_increment"></field>
+            <field eval="False" name="company_id"></field>
+        </record>
+</odoo>

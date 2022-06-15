@@ -1,0 +1,76 @@
+<odoo>
+    <record id="bengkel_view_form" model="ir.ui.view">
+        <field name="name">bengkel.view.form</field>
+        <field name="model">bengkel.mobil</field>
+        <field name="arch" type="xml">
+            <form string="bengkel form">
+             <header>
+                 <button name="action_confirmed" string="Confirm" states="draft" type="object" class="btn-primary"/>
+                 <button name="action_settodraft" states="canceled" string="Set to Draft" type="object" class="btn-primary"/>
+                 <button name="action_canceled" string="Cancel" states="confirmed" type="object" class="btn-primary" />
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="no_rangka"/>
+                            <field name="nama_mobil"/>
+                            <field name="warna"/>
+                            <field name="tahun"/>
+                            <field name="km"/>
+                            <field name="bbm" widget="radio"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="bengkel_view_list" model="ir.ui.view">
+        <field name="name">bengkel.view.list</field>
+        <field name="model">bengkel.mobil</field>
+        <field name="arch" type="xml">
+            <tree string="bengkel list">
+                <field name="name"/>
+                <field name="no_rangka"/>
+                <field name="nama_mobil"/>
+                <field name="warna"/>
+                <field name="tahun"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bengkel_view_search" model="ir.ui.view">
+        <field name="name">bengkel.mobil.search</field>
+        <field name="model">bengkel.mobil</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="no_rangka"/>
+                <field name="nama_mobil"/>
+                <field name="warna"/>
+                <field name="tahun"/>
+                <filter string="Draft" name="draft_filter" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed_filter" domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <group string="Group By..." expand="0" name="groupby">
+                    <filter string="State" name="by_state" context="{'group_by': 'state'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="mobil_action" model="ir.actions.act_window">
+        <field name="name">Mobil</field>
+        <field name="res_model">bengkel.mobil</field>
+        <field name="view_id" ref="bengkel_view_list"/>
+        <field name="view_mode">tree,list,form</field>
+    </record>
+    <!--parent menu-->
+
+    <menuitem id="mobil_mmenu2" parent="bengkel.bengkel_mmenu" name="Mobil"
+              action="mobil_action" sequence="20"/>
+</odoo>
